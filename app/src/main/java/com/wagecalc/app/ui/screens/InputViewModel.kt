@@ -27,14 +27,18 @@ class InputViewModel @Inject constructor(
     private val _yearMonth = MutableStateFlow(YearMonth.now())
     private val _selectedDate = MutableStateFlow(LocalDate.now())
 
+    private val _uiState = MutableStateFlow(InputUiState())
+
     val uiState: StateFlow<InputUiState> = combine(
         _yearMonth,
-        _selectedDate
-    ) { ym, sd ->
-        InputUiState(yearMonth = ym, selectedDate = sd)
+        _selectedDate,
+        _uiState
+    ) { ym, sd, existing ->
+        existing.copy(yearMonth = ym, selectedDate = sd)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), InputUiState())
 
     init {
+        // Load dates with records for current month
         viewModelScope.launch {
             _yearMonth.collectLatest { ym ->
                 repository.getDatesWithRecords(ym.toString()).collect { dates ->
