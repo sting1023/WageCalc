@@ -33,16 +33,12 @@ class MainActivity : ComponentActivity() {
 sealed class Tab(val title: String, val icon: ImageVector) {
     data object Input : Tab("录入", Icons.Default.Add)
     data object Summary : Tab("汇总", Icons.Default.List)
-
-    companion object {
-        val all = listOf(Input, Summary)
-    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WageCalcContent() {
-    var selectedTab by remember { mutableStateOf<Tab>(Tab.Input) }
+    var selectedTab by remember { mutableStateOf<Tab?>(Tab.Input) }
 
     Scaffold(
         topBar = {
@@ -56,13 +52,15 @@ fun WageCalcContent() {
         },
         bottomBar = {
             NavigationBar {
-                Tab.all.forEach { tab ->
-                    NavigationBarItem(
-                        icon = { Icon(tab.icon, contentDescription = tab.title) },
-                        label = { Text(tab.title) },
-                        selected = selectedTab == tab,
-                        onClick = { selectedTab = tab }
-                    )
+                listOf(Tab.Input, Tab.Summary).forEach { tab ->
+                    if (tab != null) {
+                        NavigationBarItem(
+                            icon = { Icon(tab.icon, contentDescription = tab.title) },
+                            label = { Text(tab.title) },
+                            selected = selectedTab == tab,
+                            onClick = { selectedTab = tab }
+                        )
+                    }
                 }
             }
         }
@@ -76,6 +74,7 @@ fun WageCalcContent() {
             when (selectedTab) {
                 Tab.Input -> InputScreen()
                 Tab.Summary -> SummaryScreen()
+                null -> { /* skip */ }
             }
         }
     }
