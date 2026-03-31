@@ -6,6 +6,7 @@ import com.wagecalc.app.data.local.DailyWageRecord
 import com.wagecalc.app.data.repository.WageRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import java.time.YearMonth
 import javax.inject.Inject
 
