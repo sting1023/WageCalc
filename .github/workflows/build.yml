@@ -24,26 +24,17 @@ jobs:
           name: build-log
           path: build.log
           retention-days: 1
-      - name: Create Release
+      - name: Create Release & Upload APK
         if: success()
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: v1.0.0
-          release_name: WageCalc v1.0.0
+          name: WageCalc v1.0.0
           draft: false
           prerelease: false
-      - name: Upload APK to Release
-        if: success()
-        uses: actions/upload-release-asset@v1
+          files: app/build/outputs/apk/debug/app-debug.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: app/build/outputs/apk/debug/app-debug.apk
-          asset_name: WageCalc.apk
-          asset_content_type: application/vnd.android.package-archive
       - name: Upload artifact
         if: success()
         uses: actions/upload-artifact@v4
