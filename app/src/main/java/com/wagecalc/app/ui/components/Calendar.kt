@@ -5,10 +5,9 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -50,7 +49,7 @@ fun WageCalendar(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = onPrevMonth) {
-                Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, contentDescription = "上一月")
+                Icon(Icons.Filled.KeyboardArrowLeft, contentDescription = "上一月")
             }
             Text(
                 text = "${yearMonth.year}年 ${yearMonth.monthValue}月",
@@ -59,7 +58,7 @@ fun WageCalendar(
                 color = MaterialTheme.colorScheme.onBackground
             )
             IconButton(onClick = onNextMonth) {
-                Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = "下一月")
+                Icon(Icons.Filled.KeyboardArrowRight, contentDescription = "下一月")
             }
         }
 
