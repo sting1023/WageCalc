@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             WageCalcTheme {
-                WageCalcApp()
+                WageCalcContent()
             }
         }
     }
@@ -33,11 +33,15 @@ class MainActivity : ComponentActivity() {
 sealed class Tab(val title: String, val icon: ImageVector) {
     data object Input : Tab("录入", Icons.Default.Add)
     data object Summary : Tab("汇总", Icons.Default.List)
+
+    companion object {
+        val all = listOf(Input, Summary)
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WageCalcApp() {
+fun WageCalcContent() {
     var selectedTab by remember { mutableStateOf<Tab>(Tab.Input) }
 
     Scaffold(
@@ -52,7 +56,7 @@ fun WageCalcApp() {
         },
         bottomBar = {
             NavigationBar {
-                Tab.entries.forEach { tab ->
+                Tab.all.forEach { tab ->
                     NavigationBarItem(
                         icon = { Icon(tab.icon, contentDescription = tab.title) },
                         label = { Text(tab.title) },
