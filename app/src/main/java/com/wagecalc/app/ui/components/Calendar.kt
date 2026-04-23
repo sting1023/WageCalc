@@ -44,21 +44,21 @@ fun WageCalendar(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 8.dp, vertical = 6.dp),
+                .padding(horizontal = 8.dp, vertical = 12.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = onPrevMonth, modifier = Modifier.size(32.dp)) {
-                Icon(Icons.Filled.KeyboardArrowLeft, contentDescription = "上一月", modifier = Modifier.size(20.dp))
+            IconButton(onClick = onPrevMonth) {
+                Icon(Icons.Filled.KeyboardArrowLeft, contentDescription = "上一月")
             }
             Text(
                 text = "${yearMonth.year}年 ${yearMonth.monthValue}月",
-                fontSize = 16.sp,
+                fontSize = 18.sp,
                 fontWeight = FontWeight.Medium,
                 color = MaterialTheme.colorScheme.onBackground
             )
-            IconButton(onClick = onNextMonth, modifier = Modifier.size(32.dp)) {
-                Icon(Icons.Filled.KeyboardArrowRight, contentDescription = "下一月", modifier = Modifier.size(20.dp))
+            IconButton(onClick = onNextMonth) {
+                Icon(Icons.Filled.KeyboardArrowRight, contentDescription = "下一月")
             }
         }
 
@@ -76,7 +76,7 @@ fun WageCalendar(
             }
         }
 
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         // Calendar grid
         val totalCells = firstDayOfWeek + daysInMonth
@@ -99,8 +99,7 @@ fun WageCalendar(
                             hasRecord = hasRecord,
                             isToday = isToday,
                             onClick = { onDateSelected(date) },
-                            modifier = Modifier.weight(1f),
-                            cellSize = 36.dp
+                            modifier = Modifier.weight(1f)
                         )
                     } else {
                         Spacer(modifier = Modifier.weight(1f))
@@ -118,13 +117,12 @@ private fun CalendarDay(
     hasRecord: Boolean,
     isToday: Boolean,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    cellSize: androidx.compose.ui.unit.Dp = 40.dp
+    modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier
-            .size(cellSize)
-            .padding(1.dp)
+            .aspectRatio(1f)
+            .padding(2.dp)
             .clip(CircleShape)
             .background(
                 when {
@@ -152,10 +150,10 @@ private fun CalendarDay(
                 fontWeight = if (isSelected || isToday) FontWeight.Bold else FontWeight.Normal
             )
             if (hasRecord) {
-                Spacer(modifier = Modifier.height(1.dp))
+                Spacer(modifier = Modifier.height(2.dp))
                 Box(
                     modifier = Modifier
-                        .size(3.dp)
+                        .size(4.dp)
                         .clip(CircleShape)
                         .background(if (isSelected) Color.White else Primary)
                 )
