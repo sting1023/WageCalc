@@ -16,6 +16,7 @@ data class InputUiState(
     val selectedDate: LocalDate = LocalDate.now(),
     val datesWithRecords: Set<String> = emptySet(),
     val currentRecord: DailyWageRecord? = null,
+    val monthlyRecords: List<DailyWageRecord> = emptyList(),
     val isLoading: Boolean = false
 )
 
@@ -47,6 +48,7 @@ class InputViewModel @Inject constructor(
             }
         }
         loadSelectedDateRecord()
+        loadMonthlyRecords()
     }
 
     fun selectDate(date: LocalDate) {
@@ -76,10 +78,19 @@ class InputViewModel @Inject constructor(
             val toSave = record.copy(date = _selectedDate.value.toString())
             repository.saveRecord(toSave)
             loadSelectedDateRecord()
+            loadMonthlyRecords()
             // refresh dates
             val ym = _yearMonth.value.toString()
             repository.getDatesWithRecords(ym).first().let { dates ->
                 _uiState.update { it.copy(datesWithRecords = dates.toSet()) }
+            }
+        }
+    }
+
+    private fun loadMonthlyRecords() {
+        viewModelScope.launch {
+            repository.getRecordsByMonth(_yearMonth.value.toString()).collect { records ->
+                _uiState.update { it.copy(monthlyRecords = records.sortedByDescending { r -> r.date }) }
             }
         }
     }
